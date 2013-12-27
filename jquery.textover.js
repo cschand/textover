@@ -28,10 +28,25 @@
   			'resize': 'none'
 	    };
 
+        var $img = $(obj);
+
 	    getPos = function(obj) {
 	      var pos = $(obj).offset();
 	      return [pos.left, pos.top];
 	    };
+
+        getData = function() {
+          removeEmpty();
+          data = [];
+          imgPos = getPos($img);
+          $.each(messages, function() {
+            pos = getPos(this);
+            textLeft = pos[0] - imgPos[0];
+            textTop = pos[1] - imgPos[1];
+            data.push({ 'text': this.val(), 'left': textLeft, 'top': textTop });
+          });
+          return data;
+        }
 
 	    mouseAbs = function(e) {  
 	      return [e.pageX, e.pageY];
@@ -111,7 +126,6 @@
 
         api = $.TextOver(this, options);
         if ($.isFunction(callback)) callback.call(api);
-
  
         // Return "this" so the object is chainable (jQuery-style)
     	return this;
